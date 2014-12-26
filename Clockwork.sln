@@ -3,6 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clockwork", "Clockwork\Clockwork.csproj", "{9DDF323D-DE1D-49F9-ABAE-95BCB7E186D6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{39E5CB92-3861-4A64-A108-1D6D7480CF71}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clockwork.Tests", "Clockwork.Tests\Clockwork.Tests.csproj", "{DAEE49A7-4DC1-4018-90E1-ED603EA5CEFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clockwork.Presentation.Tray", "Clockwork.Presentation.Tray\Clockwork.Presentation.Tray.csproj", "{CCD71D7F-D05F-487F-8E72-77E80B62EFB6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,8 +22,19 @@ Global
 		{9DDF323D-DE1D-49F9-ABAE-95BCB7E186D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DDF323D-DE1D-49F9-ABAE-95BCB7E186D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DDF323D-DE1D-49F9-ABAE-95BCB7E186D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAEE49A7-4DC1-4018-90E1-ED603EA5CEFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAEE49A7-4DC1-4018-90E1-ED603EA5CEFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAEE49A7-4DC1-4018-90E1-ED603EA5CEFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAEE49A7-4DC1-4018-90E1-ED603EA5CEFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCD71D7F-D05F-487F-8E72-77E80B62EFB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCD71D7F-D05F-487F-8E72-77E80B62EFB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCD71D7F-D05F-487F-8E72-77E80B62EFB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCD71D7F-D05F-487F-8E72-77E80B62EFB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(CodealikeProperties) = postSolution
+		SolutionGuid = d7c8646a-8aa6-4f98-97d4-f07ddd4bc218
 	EndGlobalSection
 EndGlobal

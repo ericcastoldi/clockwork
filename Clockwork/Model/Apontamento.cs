@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Clockwork.Model
 {
-    public class Apontamento
+    public sealed class Apontamento
     {
         public DateTime Data { get; private set; }
         public TimeSpan HorasLancadas { get; private set; }
@@ -15,22 +15,6 @@ namespace Clockwork.Model
         {
             Data = data;
             HorasLancadas = horas;
-        }
-
-        public bool EstaLancadoEmCompletude(TimeSpan cronogramaDiario) 
-        {
-            return cronogramaDiario.Hours == HorasLancadas.Hours
-                && cronogramaDiario.Minutes == HorasLancadas.Minutes;
-        }
-
-        public TimeSpan HorasFaltantes(TimeSpan cronogramaDiario) 
-        {
-            if (EstaLancadoEmCompletude(cronogramaDiario))
-            {
-                return new TimeSpan(0, 0, 0);
-            }
-            
-            return cronogramaDiario - HorasLancadas;
         }
     }
 }

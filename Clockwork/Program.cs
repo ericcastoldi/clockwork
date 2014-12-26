@@ -1,4 +1,5 @@
 ﻿using Clockwork.Model;
+using Clockwork.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,9 +30,12 @@ namespace Clockwork
              *  > Emissão de lembretes
              
              */
+            var json = new CronogramaJson();
+            var cronograma = json.CarregarCronograma();
 
-            var apontamento = new Apontamento(DateTime.Today, new TimeSpan(2, 0, 0));
-            var cronograma = new Cronograma(new List<Apontamento>()); // Poderia ser lido do json e populado um cronograma.
+            cronograma = cronograma.LancarApontamento(new Apontamento(DateTime.Today, new TimeSpan(5, 30, 0)));
+
+            json.Salvar(cronograma);
         }
     }
 }

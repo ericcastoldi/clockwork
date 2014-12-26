@@ -1,64 +1,68 @@
-﻿using System;
+﻿using Clockwork.Persistence;
+using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Clockwork.Model
 {
-    public class Cronograma
+    public sealed class Cronograma
     {
-        public IList<Apontamento> Apontamentos { get; private set; }
-        private const TimeSpan CargaHorariaPadrao = new TimeSpan(8, 30, 0);
+        public IImmutableList<Apontamento> Apontamentos { get; private set; }
+        private readonly TimeSpan CargaHorariaPadrao = new TimeSpan(8, 30, 0);
+        private readonly CronogramaJson _json;
+
+        public Cronograma()
+        {
+            _json = new CronogramaJson();
+
+            var cronograma = _json.CarregarCronograma();
+            this.Apontamentos = cronograma.Apontamentos;
+        }
 
         public Cronograma(IList<Apontamento> apontamentos)
         {
-            Apontamentos = apontamentos;
-        }
+            _json = new CronogramaJson();
 
-        public bool ApontamentosMensaisCompletos()
-        {
-            var apontamentosMesAtual = Apontamentos.Where(a => a.Data.Month == DateTime.Today.Month).ToList();
-            return ApontamentosEstaoCompletos(apontamentosMesAtual);
-        }
-
-        public bool ApontamentosDaSemanaCompletos() 
-        {
-            var apontamentosSemanaAtual = new List<Apontamento>();
-
-            var diaDaSemanaAtual = DateTime.Today.DayOfWeek;
-            if (diaDaSemanaAtual == DayOfWeek.Monday) // Se hoje for segunda, verifica apenas os lançamentos de hoje. 
+            if (apontamentos == null
+                || apontamentos.Count == 0)
             {
-                apontamentosSemanaAtual = Apontamentos.Where(a => a.Data == DateTime.Today).ToList();
+                this.Apontamentos = ImmutableList.Create<Apontamento>();
             }
-            else 
+            else
             {
-                if (diaDaSemanaAtual > DayOfWeek.Monday) 
-                {
-                    var diferencaDeHojeParaSegunda = DayOfWeek.Monday - diaDaSemanaAtual;
-                    var segundaFeira = DateTime.Today.AddDays(diferencaDeHojeParaSegunda);
+                this.Apontamentos = ImmutableList.CreateRange(apontamentos);
+            }
+        }
 
-                    apontamentosSemanaAtual = Apontamentos.Where(a => a.Data >= segundaFeira && a.Data <= DateTime.Today).ToList();
+        public Cronograma LancarApontamento(Apontamento apontamento)
+        {
+            var apontamentos = Apontamentos.Add(apontamento);
+            var cronograma = new Cronograma(apontamentos.ToList());
+
+            _json.Salvar(cronograma);
+
+            return cronograma;
+        }
+
+        public IImmutableList<ApontamentoDiario> ApontamentosIncompletos()
+        {
+            var diasApontados = from apontamento in Apontamentos
+                                group apontamento.HorasLancadas by apontamento.Data into apontamentosPorData
+                                select new ApontamentoDiario(apontamentosPorData.Key, apontamentosPorData.ToList());
+
+            var apontamentosIncompletos = new List<ApontamentoDiario>();
+            foreach (var dia in diasApontados)
+            {
+                if (!dia.CronogramaDoDiaEstaCompleto(this.CargaHorariaPadrao))
+                {
+                    apontamentosIncompletos.Add(dia);
                 }
             }
-            
-            return ApontamentosEstaoCompletos(apontamentosSemanaAtual);
-        }
 
-        public bool ApontamentosDoDiaCompletos() 
-        { 
-            var apontamentosMesAtual = Apontamentos.Where(a => a.Data == DateTime.Today).ToList();
-            return ApontamentosEstaoCompletos(apontamentosMesAtual);
-        }
-
-        public bool ApontamentosCompletos() 
-        { 
-            return ApontamentosEstaoCompletos(Apontamentos);
-        }
-
-        private bool ApontamentosEstaoCompletos(IList<Apontamento> apontamentos)
-        {
-            return apontamentos.All(apontamento => apontamento.EstaLancadoEmCompletude(CargaHorariaPadrao));
+            return ImmutableList.CreateRange(apontamentosIncompletos);
         }
     }
 }
