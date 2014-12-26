@@ -1,7 +1,7 @@
 clockwork
 =========
 
-Clockwork- Auxiliar para controle de apontamento de horas
+Clockwork - Auxiliar para controle de apontamento de horas
 
 A ideia é um aplicativo que fique na system tray do windows e que dispare lembretes para o apontamento de horas, e que mantenha um registro das horas apontadas.
 O registro fica em um arquivo json por hora. 
