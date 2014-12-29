@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Clockwork.Model
+namespace Clockwork
 {
     public sealed class ApontamentoDiario 
     {
@@ -13,6 +13,12 @@ namespace Clockwork.Model
 
         public ApontamentoDiario(DateTime data, IList<TimeSpan> horasApontadas)
         {
+            if (horasApontadas == null
+                || horasApontadas.Count == 0)
+            {
+                throw new ArgumentException("Argumento em estado inválido. A lista de horas apontadas está vazia ou não possui elementos.");
+            }
+
             this.Data = data;
             this.Apontamentos = new List<Apontamento>();
             foreach (var hora in horasApontadas)

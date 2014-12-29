@@ -61,6 +61,15 @@ namespace Clockwork.Presentation.Tray {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clockwork.
+        /// </summary>
+        internal static string Clockwork {
+            get {
+                return ResourceManager.GetString("Clockwork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon ClockworkIcon {

@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Clockwork.Model;
+using Clockwork;
 using System.Collections.Generic;
 
 namespace Clockwork.Tests.Model

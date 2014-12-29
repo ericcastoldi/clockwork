@@ -1,5 +1,4 @@
-﻿using Clockwork.Model;
-using Clockwork.Persistence;
+﻿using Clockwork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Clockwork
 {
-    public class Program
+    public static class Program
     {
-        public void Main()
+        public static void Main()
         {
             /*
              * *** CLOCKWORK - Auxiliar para apontamento de horas ***

@@ -15,13 +15,16 @@ namespace Clockwork.Presentation.Tray
         [STAThread]
         static void Main()
         {
-            var context = new TrayApplicationContext();
-            Application.Run(context);
+            using (var context = new TrayApplicationContext())
+            {
+                Application.Run(context);
+            }
         }
     }
 
     internal class TrayApplicationContext : ApplicationContext
     {
+        protected ContextMenuStrip _menuStrip;
         protected Container _components;
         protected NotifyIcon _notifyIcon;
 
@@ -32,26 +35,34 @@ namespace Clockwork.Presentation.Tray
 
         private void InitializeContext()
         {
+            _menuStrip = new ContextMenuStrip();
             _components = new System.ComponentModel.Container();
-            _notifyIcon = new NotifyIcon(_components)
-            {
-                ContextMenuStrip = new ContextMenuStrip(),
-                Icon = FormResources.ClockworkIcon,
-                Text = "Clockwork",
-                Visible = true
-            };
+            _notifyIcon = new NotifyIcon(_components);
+
+            _notifyIcon.ContextMenuStrip = _menuStrip;
+            _notifyIcon.Icon = FormResources.ClockworkIcon;
+            _notifyIcon.Text = FormResources.Clockwork;
+            _notifyIcon.Visible = true;
+
             _notifyIcon.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
             _notifyIcon.DoubleClick += notifyIcon_DoubleClick;
         }
 
         private void notifyIcon_DoubleClick(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void ContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
-            throw new NotImplementedException();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _menuStrip.Dispose();
+            _components.Dispose();
+            _notifyIcon.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }
